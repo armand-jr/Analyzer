@@ -10,22 +10,39 @@ filename = sys.argv[1]
 try:
     with open(filename, 'r') as file:
         for line in file:
-            line = line.strip()  # Remove any leading/trailing whitespace
+            line = line.strip()  # Remove whitespace
             if line.startswith(':61:'):
-                # Extract everything after ':86:'
-                description = line[4:].strip()
-                print(description)
+                if 'C' in line:
+                    parts = line.split('C')
+                    transaction_type = '+'
+                elif 'D' in line:
+                    parts = line.split('D')
+                    transaction_type = '-'
+                
+                if len(parts) > 1:
+                    # Extract the amount
+                    amount_part = parts[1]
+                    amount = amount_part.split('N')[0]
+                    print(f"{transaction_type}{amount.strip()}")
+                    
+            
             
             if line.startswith(':86:'):
                 #Extract and store transaction description
                 name = line[4:].strip()
                 print(name)
-                
+            
 
 except FileNotFoundError:
     print(f"Error: File not found '{filename}'")
 except Exception as e:
     print(f"An error occurred: {e}")
+
+
+
+
+
+
 
 """ 
 def parse_mt940(filename):

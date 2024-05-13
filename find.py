@@ -1,46 +1,61 @@
 import sys
 
+#keywords
+incassos = ['cjib ', 'incassobureau', 'incasso bureau', ' evers ', 'van der Velde en van Hal', 
+            'ultimoo' 'Flanderijn ', 'collactiveBMK', 'Bierens ', 'Avi ', 'Syncasso', 'straetus', 'GGN ', 
+            'Vesting', 'Debtt', 'Gerechtsdeurwaarder', 'korenhof', 'KBKP', 'Collect4u', 'Actis', 'derdenbeslag', 
+            'invorderings', ' BRU ', 'Hoist', ' BVCM', 'coeo incasso', 'intrum', 'alektum', 'hafkamp', 'atradius', 
+            'lavg', 'intocash', 'intojuristen', 'steghuis', 'janssen en janssen', 'lindorff', 'credios', 'credifix', 'in-kas']
+loterijen = ['Toto', 'casino', 'loterij', 'unibet', 'Bitvavo', 'Crypto', ' bet ', 'poker', 'coinbase', 'uab alternative payments']
+
+# check for correct usage
 if len(sys.argv) < 2:
-    print("Usage: python3 find.py <filename>")
+    print("Usage: python3 script.py <filename> (<account_holder>)")
     sys.exit(1)
 
-incassos = ['casso']
-
 filename = sys.argv[1]
+#account_holder = sys.argv[2]
 
 try:
     with open(filename, 'r') as file:
+        transaction_amount = ''
+        transaction_type = ''
+        collecting_description = False
+        description_lines = []
+        
         for line in file:
-            line = line.strip()  # Remove whitespace
+            line = line.strip()
             if line.startswith(':61:'):
-                if 'C' in line:
-                    parts = line.split('C')
-                    transaction_type = '+'
-                if 'D' in line:
-                    parts = line.split('D')
-                    transaction_type = '-'
-                
-                if len(parts) > 1:
-                    # Extract the amount
-                    amount_part = parts[1]
-                    amount = amount_part.split('N')[0].strip()
-                    print(f"{transaction_type}{amount.strip()}")
-                    
+                # check if we need to process the previous transaction
+                if collecting_description:
+                    description = ' '.join(description_lines)
+                    # check for keywords
+                    for keyword in incassos + loterijen:
+                        if keyword in description.lower():
+                            print(f"{transaction_type}{transaction_amount} --- Keyword: {keyword}")
+                    description_lines = []
+                    collecting_description = False
+
+                # process the new transaction
+                transaction_type = '+' if 'C' in line else '-'
+                parts = line.split('C' if 'C' in line else 'D')
+                transaction_amount = parts[1].split(',')[0].strip()
             
-            
-            if line.startswith(':86:'):
-                # Extract and store transaction description
-                #name = line[5:].strip()
-                #print(name)
-                description_lines = []
-                for line in file:
-                    line = line.strip()
-                    if line.startswith(':61:') or line.startswith(':62F:'):
-                        break
-                    description_lines.append(line)
-                description = ' '.join(description_lines)
-                print(description)
-            
+            elif line.startswith(':86:'):
+                collecting_description = True
+                description_lines.append(line[4:].strip())  # start collecting the description from here
+
+            elif collecting_description:
+                description_lines.append(line)  # continue collecting the description
+
+
+        # handle the last transaction in the file
+        if collecting_description:
+            description = ' '.join(description_lines)
+            #print (description)
+            for keyword in incassos + loterijen:
+                if keyword in description.lower():
+                    print(f"{transaction_type}{transaction_amount} -+- Keyword: {keyword}")
 
 except FileNotFoundError:
     print(f"Error: File not found '{filename}'")

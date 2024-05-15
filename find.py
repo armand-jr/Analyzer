@@ -2,11 +2,12 @@ import sys
 
 #keywords
 incassos = ['cjib ', 'incassobureau', 'incasso bureau', ' evers ', 'van der Velde en van Hal', 
-            'ultimoo' 'Flanderijn ', 'collactiveBMK', 'Bierens ', 'Avi ', 'Syncasso', 'straetus', 'GGN ', 
-            'Vesting', 'Debtt', 'Gerechtsdeurwaarder', 'korenhof', 'KBKP', 'Collect4u', 'Actis', 'derdenbeslag', 
-            'invorderings', ' BRU ', 'Hoist', ' BVCM', 'coeo incasso', 'intrum', 'alektum', 'hafkamp', 'atradius', 
-            'lavg', 'intocash', 'intojuristen', 'steghuis', 'janssen en janssen', 'lindorff', 'credios', 'credifix', 'in-kas']
-loterijen = ['Toto', 'casino', 'loterij', 'unibet', 'Bitvavo', 'Crypto', ' bet ', 'poker', 'coinbase', 'uab alternative payments']
+            'ultimoo' 'flanderijn ', 'collactivebmk', 'bierens ', 'avi ', 'syncasso', 'straetus', 'ggn ', 
+            'vesting', 'debtt', 'Gerechtsdeurwaarder', 'korenhof', 'kbkp', 'collect4u', 'actis', 'derdenbeslag', 
+            'invorderings', ' bru ', 'hoist', ' bvcm', 'coeo incasso', 'intrum', 'alektum', 'hafkamp', 'atradius', 
+            'lavg', 'intocash', 'intojuristen', 'steghuis', 'janssen en janssen', 'lindorff', 'credios', 'credifix', 'in-kas',
+            'cannock','zuidweg']
+loterijen = ['toto', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto', ' bet ', 'poker', 'coinbase', 'trekking', 'uab alternative payments', 'retrust ou', 'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin', 'betfair']
 
 # check for correct usage
 if len(sys.argv) < 2:

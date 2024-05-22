@@ -1,0 +1,88 @@
+import sys
+import json
+import datetime
+
+#keywords
+incassos = ['cjib ', 'incassobureau', 'incasso bureau', ' evers ', 'van der Velde en van Hal', 
+            'ultimoo', 'flanderijn ', 'collactivebmk', 'bierens ', 'avi ', 'syncasso', 'straetus', 'ggn ', 
+            'vesting', 'debtt', 'Gerechtsdeurwaarder', 'deurwaarder', 'korenhof', 'kbkp', 'collect4u', 'actis', 'derdenbeslag', 
+            'invorderings', ' bru ', 'hoist', ' bvcm', 'coeo incasso', 'intrum', 'alektum', 'hafkamp', 'atradius', 
+            'lavg', 'intocash', 'intojuristen', 'steghuis', 'janssen & janssen', 'lindorff', 'credios', 'credifix', 'in-kas',
+            'cannock','zuidweg', 'debtco', 'jongerius', 'bazuin & partners', 'agin pranger', 'nl81abna0447354663', 'de schout', 'caminada',
+            'Nationale Grote Club', 'trust krediet beheer', 'bvcm', 'Geerlings + Hofstede', 'debt recovery', 'debt collection agency', 'yards']
+loterijen = ['toto', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto', 'poker', 'coinbase', 'trekking', 'uab alternative payments', 'retrust ou', 
+             'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin ', 'betfair', 
+             'fair game software kft', 'damagi marketing solutions']
+financierders = ['youlend', 'yl limited', 'trustly', 'qredits', 'Qred', 'floryn', 'online payment platform', 'collin crowdfund', 'swishfund']
+
+
+# check for correct usage
+if len(sys.argv) < 2:
+    print("Usage: python3 script.py <filename> (<account_holder>)")
+    sys.exit(1)
+
+filename = sys.argv[1]
+current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+yearago = datetime.datetime.now() - datetime.timedelta(days=366)
+
+
+try:
+    with open(filename, 'r') as file:
+        data = json.load(file)
+        incasso_sum = 0
+        loterijen_sum = 0
+        fin_sum = 0
+        prive_sum = 0
+
+        #transactions = data.get('transactions', [])
+        for account in data['accounts']:
+            for transaction in account['transactions']:
+                date = transaction.get('transactionDate', '').split('T')[0]
+                if date > yearago.strftime('%Y-%m-%d'):
+                    amount = transaction.get('amount', 0)
+                    description = transaction.get('description', '').lower()
+                    beneficiary = transaction.get('beneficiary', {})
+                    name = beneficiary.get('name', '').lower()
+                    original_name = beneficiary.get('originalName', '').lower()
+                    date = transaction.get('transactionDate', '').split('T')[0]
+
+                    search_text = f"{description} {name} {original_name}"
+
+                #print(search_text)
+                if len(sys.argv) == 3:
+                    account_holder = sys.argv[2]   
+
+                    if account_holder.lower() in search_text:
+                        prive_sum += amount
+                        #print(f"{amount:.2f} --- Account holder: {account_holder} (Prive)")
+                         
+
+                for keyword in financierders:
+                    if keyword.lower() in search_text:
+                        fin_sum += amount
+                        #print(f"{amount:.2f} --- Keyword: {keyword} (Financiering) - {date}")
+
+                for keyword in incassos:
+                    if keyword.lower() in search_text:
+                        incasso_sum += amount
+                        print(f"{amount:.2f} --- Keyword: {keyword} (Incasso) - {date}")
+
+                # Check for loterijen keywords
+                for keyword in loterijen:
+                    if keyword.lower() in search_text:
+                        loterijen_sum += amount
+                        print(f"{amount:.2f} --- Keyword: {keyword} (Loterij) - {date}")
+        
+        print("\n")
+        print(f"Total incasso: {incasso_sum:.2f}")
+        print(f"Total loterijen: {loterijen_sum:.2f}")
+        print(f"Total prive: {prive_sum:.2f}")
+        print(f"Current time: {current_time}")
+        print(f"Year ago: {yearago.strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"Total financierders: {fin_sum:.2f}")
+        print("\n")
+
+
+
+except FileNotFoundError:
+    print(f"Error: File not found '{filename}'")

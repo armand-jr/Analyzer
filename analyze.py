@@ -12,8 +12,8 @@ incassos = [ 'incassobureau', 'incasso bureau', ' evers ', 'van der Velde en van
             'Nationale Grote Club', 'trust krediet beheer', 'bvcm', 'Geerlings + Hofstede', 'debt recovery', 'debt collection agency', 'yards ', ' tkb', 'vd+p', 'call2collect']
 loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto', 'poker', 'coinbase', ' trekking', 'uab alternative payments', 'retrust ou', 
              'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin ', 'betfair', 
-             'fair game software kft', 'damagi marketing solutions' ]
-financierders = ['youlend', 'yl limited', 'trustly', 'qredits', 'Qred', 'floryn', 'online payment platform', 'grenkefinance', 'collin crowdfund', 'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', 'regeling', 'bondora', 'bedrijfslening' ]
+             'fair game software kft', 'damagi marketing solutions', 'kansino' ]
+financierders = ['youlend', 'yl limited', 'trustly', 'qredits', 'qred', 'floryn', 'online payment platform', 'grenkefinance', 'collin crowdfund', 'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', 'regeling', 'bondora', 'bedrijfslening', 'yl iv limited']
 policy = ['coffeeshop']
 
 # check for correct usage
@@ -58,28 +58,38 @@ try:
 
                     if account_holder.lower() or "priverekening" in name:
                         prive_sum += amount
-                        #print(f"{amount:.2f} --- Account holder: {account_holder} (Prive)")
-                         
-
+                        #print(f"{amount:.2f} --- Account holder: {account_holder} (Prive)")      
 
 
                 for keyword in financierders:
                     if keyword.lower() in search_text and amount > 0:
-                        fin_sum += amount
+                        #check duplicates
+                        if transaction_id not in processed_id:
+                            processed_id.add(transaction_id)
+                            fin_sum += amount
                     if keyword.lower() in search_text and amount < 0:
-                        pay_fin += amount
-                        print(f"{amount:.2f} --- Keyword: {keyword} (Financiering) - {date}")
+                        #check duplicates
+                        if transaction_id not in processed_id:
+                            processed_id.add(transaction_id)
+                            pay_fin += amount
+                            print(f"{amount:.2f} --- Keyword: {keyword} (Financiering) - {date} - ID: {transaction_id}")
   
                 for keyword in incassos:
                     if keyword.lower() in search_text:
-                        incasso_sum += amount
-                        print(f"{amount:.2f} --- Keyword: {keyword} (Incasso) - {date} - {transaction_id}")
+                        #check duplicates
+                        if transaction_id not in processed_id:
+                            incasso_sum += amount
+                            processed_id.add(transaction_id)
+                            print(f"{amount:.2f} --- Keyword: {keyword} (Incasso) - {date} - ID: {transaction_id}")
 
                 # Check for loterijen keywords
                 for keyword in loterijen:
                     if keyword.lower() in search_text:
-                        loterijen_sum += amount
-                        print(f"{amount:.2f} --- Keyword: {keyword} (Loterij) - {date} - {transaction_id}")
+                        #check duplicates
+                        if transaction_id not in processed_id:
+                            processed_id.add(transaction_id)
+                            loterijen_sum += amount
+                            print(f"{amount:.2f} --- Keyword: {keyword} (Loterij) - {date} - ID: {transaction_id}")
         
         print("\n")
         print(f"Total incasso: {incasso_sum:.2f}")

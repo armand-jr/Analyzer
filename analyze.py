@@ -13,7 +13,7 @@ incassos = [ 'incassobureau', 'incasso bureau', ' evers ', 'van der Velde en van
 loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto', 'poker', 'coinbase', ' trekking', 'uab alternative payments', 'retrust ou', 
              'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin ', 'betfair', 
              'fair game software kft', 'damagi marketing solutions', 'kansino' ]
-financierders = ['youlend', 'yl limited', 'trustly', 'qredits', 'qred', 'floryn', 'online payment platform', 'grenkefinance', 'collin crowdfund', 'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', 'regeling', 'bondora', 'bedrijfslening', 'yl iv limited']
+financierders = ['youlend', 'yl limited', 'trustly', 'qredits', 'qred', 'floryn', 'online payment platform', 'grenkefinance', 'collin crowdfund', 'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', 'regeling', 'bondora', 'bedrijfslening', 'yl iv limited', 'yeaz', 'nordiska']
 policy = ['coffeeshop']
 
 # check for correct usage
@@ -33,6 +33,8 @@ try:
         fin_sum = 0
         pay_fin = 0
         prive_sum = 0
+        bd_uit = 0
+        bd_terug = 0
         processed_id = set()
 
 
@@ -52,13 +54,26 @@ try:
 
                     search_text = f"{description} {name} {original_name}"
 
+
+                if 'belastingdienst' in name and amount < 0:
+                    if transaction_id not in processed_id:
+                        processed_id.add(transaction_id)
+                        bd_uit += amount
+                        #print(f"{amount:.0f} --- belastingdienst - {date}")
+
+                if 'belastingdienst' in name and 'teruggaaf' in description:
+                    if transaction_id not in processed_id:
+                        processed_id.add(transaction_id)
+                        bd_terug += amount
+                        print(f"{amount:.0f} --- BD teruggave - {date} {transaction_id}") 
+
                 #print(search_text)
                 if len(sys.argv) == 3:
                     account_holder = sys.argv[2]   
-
                     if account_holder.lower() or "priverekening" in name:
                         prive_sum += amount
-                        #print(f"{amount:.2f} --- Account holder: {account_holder} (Prive)")      
+                        #print(f"{amount:.0f} --- Account holder: {account_holder} (Prive) {transaction_id}")      
+
 
 
                 for keyword in financierders:
@@ -72,7 +87,7 @@ try:
                         if transaction_id not in processed_id:
                             processed_id.add(transaction_id)
                             pay_fin += amount
-                            print(f"{amount:.2f} --- Keyword: {keyword} (Financiering) - {date} - ID: {transaction_id}")
+                            print(f"{amount:.0f} --- {keyword} (Financiering) - {date} - ID: {transaction_id}")
   
                 for keyword in incassos:
                     if keyword.lower() in search_text:
@@ -80,7 +95,7 @@ try:
                         if transaction_id not in processed_id:
                             incasso_sum += amount
                             processed_id.add(transaction_id)
-                            print(f"{amount:.2f} --- Keyword: {keyword} (Incasso) - {date} - ID: {transaction_id}")
+                            print(f"{amount:.0f} --- {keyword} (Incasso) - {date} - ID: {transaction_id}")
 
                 # Check for loterijen keywords
                 for keyword in loterijen:
@@ -89,14 +104,16 @@ try:
                         if transaction_id not in processed_id:
                             processed_id.add(transaction_id)
                             loterijen_sum += amount
-                            print(f"{amount:.2f} --- Keyword: {keyword} (Loterij) - {date} - ID: {transaction_id}")
+                            print(f"{amount:.0f} --- {keyword} (Loterij) - {date} - ID: {transaction_id}")
         
         print("\n")
-        print(f"Total incasso: {incasso_sum:.2f}")
-        print(f"Total loterijen: {loterijen_sum:.2f}")
-        print(f"Total prive: {prive_sum:.2f}")
-        print(f"Total financierders: {fin_sum:.2f}")
-        print(f"Total betalingen aan financierders: {pay_fin:.2f}")
+        print(f"Total incasso: {incasso_sum:.0f}")
+        print(f"Total loterijen: {loterijen_sum:.0f}")
+        print(f"Total prive: {prive_sum:.0f}")
+        print(f"Total financierders: {fin_sum:.0f}")
+        print(f"Total betalingen aan financierders: {pay_fin:.0f}")
+        print(f"Total belastingdienst teruggave: {bd_terug:.0f}")
+        print(f"Total belastingdienst uitgaven: {bd_uit:.0f}")
         print("\n")
 
 

@@ -10,7 +10,7 @@ incassos = [ 'incassobureau', 'incasso bureau', ' evers ', 'van der Velde en van
             'lavg', 'intocash', 'intojuristen', 'steghuis', 'janssen & janssen', 'lindorff', 'credios', 'credifix', 'in-kas',
             'cannock ','zuidweg ', 'debtco', 'jongerius', 'bazuin & partners', 'agin pranger', 'nl81abna0447354663', 'de schout ', 'caminada ',
             'Nationale Grote Club', 'trust krediet beheer', 'bvcm', 'Geerlings + Hofstede', 'debt recovery', 'debt collection agency', 'yards ', ' tkb', 'vd+p', 'call2collect',
-            'juristo']
+            'juristo', 'inkassier']
 loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto', 'poker', 'coinbase', ' trekking', 'uab alternative payments', 'retrust ou', 
              'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin ', 'betfair', 
              'fair game software kft', 'damagi marketing solutions', 'kansino', 'revoapps', 'lotterie','pokerstars', 'lottery']
@@ -65,13 +65,6 @@ try:
                         duplicate_bd = {}
                         if amount in duplicate_bd:
                             counter_bd += 1
-                            duplicate_bd[amount] += 1
-                        else:
-                            duplicate_bd[amount] = 1
-                        print(f"Number of times {amount:.0f} appears: {duplicate_bd[amount]}")
-                            #duplicate_bd[amount] = 1
-
-                        #print(f"{amount:.0f} --- belastingdienst - {date}")
 
 
                 if 'belastingdienst' in name and 'teruggaaf' in description:

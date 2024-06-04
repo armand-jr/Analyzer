@@ -14,7 +14,8 @@ incassos = [ 'incassobureau', 'incasso bureau', ' evers ', 'van der Velde en van
 loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto', 'poker', 'coinbase', ' trekking', 'uab alternative payments', 'retrust ou', 
              'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin ', 'betfair', 
              'fair game software kft', 'damagi marketing solutions', 'kansino', 'revoapps', 'lotterie','pokerstars', 'lottery']
-financierders = ['youlend', 'yl limited', 'trustly', 'qredits', 'qred', 'floryn', 'online payment platform', 'collin crowdfund', 'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', ' regeling', 'bondora', 'bedrijfslening', 'yl iv limited', 'yeaz', 'nordiska']
+financierders = ['youlend', 'yl limited', 'trustly', 'qredits', 'qred', 'floryn', 'online payment platform', 'collin crowdfund', 'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', ' regeling', 'bondora', 'bedrijfslening', 'yl iv limited', 'yeaz', 'nordiska', 'trustly group']
+
 policy = ['coffeeshop']
 
 # check for correct usage
@@ -80,7 +81,6 @@ try:
                     if account_holder.lower() or "priverekening" in name:
                         prive_sum += amount
                         #print(f"{amount:.0f} --- Account holder: {account_holder} (Prive) {transaction_id}")      
-
 
 
                 for keyword in financierders:

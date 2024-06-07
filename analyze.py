@@ -3,20 +3,21 @@ import json
 import datetime
 
 #keywords
-incassos = [ 'incassobureau', 'incasso bureau', ' evers ', 'van der Velde en van Hal', 
+incassos = [ 'incassobureau', 'incasso bureau', 'groot & evers', 'van der Velde en van Hal', 
             'ultimoo', 'flanderijn ', 'collactivebmk', 'bierens ', 'avi ', 'syncasso', 'straetus', 'ggn ', 
             'vesting', 'debtt ', 'Gerechtsdeurwaarder', 'deurwaarder', 'korenhof', 'kbkp', 'collect4u', 'actis', 'derdenbeslag', 
             'invorderings', ' bru ', 'hoist', ' bvcm', 'coeo incasso', 'intrum', 'alektum', 'hafkamp', 'atradius', 
             'lavg', 'intocash', 'intojuristen', 'steghuis', 'janssen & janssen', 'lindorff', 'credios', 'credifix', 'in-kas',
             'cannock ','zuidweg ', 'debtco', 'jongerius', 'bazuin & partners', 'agin pranger', 'nl81abna0447354663', 'de schout ', 'caminada ',
             'Nationale Grote Club', 'trust krediet beheer', 'bvcm', 'Geerlings + Hofstede', 'debt recovery', 'debt collection agency', 'yards ', ' tkb', 'vd+p', 'call2collect',
-            'juristo', 'inkassier', 'medicas bv', 'betaling dossier', 'infoscore collection', 'koning & de raadt', 'betalingsregeling']
+            'juristo', 'inkassier', 'medicas bv', 'betaling dossier', 'infoscore collection', 'koning & de raadt', 'betalingsregeling', 'graydon incasso', 'rezeev',
+            'juresta']
 loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto', 'poker', 'coinbase', ' trekking', 'uab alternative payments', 'retrust ou', 
              'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin ', 'betfair', 
              'fair game software kft', 'damagi marketing solutions', 'kansino', 'revoapps', 'lotterie','pokerstars', 'lottery']
 financierders = ['youlend', 'yl limited', 'trustly', 'qredits', 'qred', 'floryn', 'online payment platform', 'collin crowdfund',
                   'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', ' regeling', 'bondora', 'bedrijfslening', 
-                  'yl iv limited', 'yeaz', 'nordiska', 'trustly group', 'capitalbox']
+                  'yl iv limited', 'yeaz', 'nordiska', 'trustly group', 'capitalbox', 'rabobank zakelijk financieren']
 
 policy = ['coffeeshop']
 
@@ -65,6 +66,7 @@ try:
                     if transaction_id not in processed_id:
                         processed_id.add(transaction_id)
                         bd_uit += amount
+                        print(f"{amount:.0f} --- BD uitgave - {date}")
                         duplicate_bd = {}
                         if amount in duplicate_bd:
                             counter_bd += 1
@@ -74,7 +76,7 @@ try:
                     if transaction_id not in processed_id:
                         processed_id.add(transaction_id)
                         bd_terug += amount
-                        print(f"{amount:.0f} --- BD teruggave - {date} {transaction_id}") 
+                        print(f"{amount:.0f} --- BD teruggave - {date}") 
 
 
                 #print(search_text)
@@ -116,13 +118,13 @@ try:
                             print(f"{amount:.0f} --- {keyword} (Loterij) - {date} ")
         
         print("\n")
-        print(f"Total incasso: {incasso_sum:.0f}")
-        print(f"Total loterijen: {loterijen_sum:.0f}")
-        print(f"Total prive: {prive_sum:.0f}")
-        print(f"Total financierders: {fin_sum:.0f}")
-        print(f"Total betalingen aan financierders: {pay_fin:.0f}")
-        print(f"Total belastingdienst teruggave: {bd_terug:.0f}")
-        print(f"Total belastingdienst uitgaven: {bd_uit:.0f}")
+        print(f"incasso: {incasso_sum:.0f}")
+        print(f"loterijen: {loterijen_sum:.0f}")
+        print(f"prive: {prive_sum:.0f}")
+        print(f"financierders: {fin_sum:.0f}")
+        print(f"betalingen aan financierders: {pay_fin:.0f}")
+        print(f"belastingdienst teruggave: {bd_terug:.0f}")
+        print(f"belastingdienst uitgaven: {bd_uit:.0f}")
         print(counter_bd)
         print("\n")
 

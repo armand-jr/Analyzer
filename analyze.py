@@ -63,17 +63,6 @@ try:
                     search_text = f"{description} {name} {original_name}"
 
 
-                    # positive_amounts = {}
-                    # if amount > 0:
-                    #     # Check if there is already a positive amount for the same name and description
-                    #     if (name, description) in positive_amounts:
-                    #         positive_amounts[(name, description)] += amount
-                    #     else:
-                    #         positive_amounts[(name, description)] = amount
-
-                    #     # Iterate over the positive amounts dictionary and print the results
-                    # for (name, description), amount in positive_amounts.items():
-                    #     print(f"{amount:.0f} --- {name} - {description}")
 
 
                 if 'belastingdienst' in name and amount < 0:
@@ -140,6 +129,7 @@ try:
         print(f"belastingdienst teruggave: {bd_terug:.0f}")
         print(f"belastingdienst uitgaven: {bd_uit:.0f}")
         print(counter_bd)
+
         print("\n")
 
 

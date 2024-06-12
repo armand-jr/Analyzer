@@ -19,7 +19,6 @@ loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto',
 financierders = ['youlend', 'yl limited', 'trustly', 'qredits', 'qred', 'floryn', 'online payment platform', 'collin crowdfund',
                   'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', ' regeling', 'bondora', 'bedrijfslening', 
                   'yl iv limited', 'yeaz', 'nordiska', 'trustly group', 'capitalbox', 'rabobank zakelijk financieren']
-
 policy = ['coffeeshop']
 
 # check for correct usage

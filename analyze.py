@@ -15,7 +15,7 @@ incassos = [ 'incassobureau', 'incasso bureau', 'groot & evers', 'van der Velde 
 loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto', 'poker', 'coinbase', ' trekking', 'uab alternative payments', 'retrust ou', 
              'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin ', 'betfair', 
              'fair game software kft', 'damagi marketing solutions', 'kansino', 'revoapps', 'lotterie','pokerstars', 'lottery', 'vof brouwer en keet', 'merkur casino',
-             'fair play casino']
+             'fair play casino', 'kraken ']
 financierders = ['youlend', 'yl limited', 'trustly', 'qredits', 'qred', 'floryn', 'online payment platform', 'collin crowdfund',
                   'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', ' regeling', 'bondora', 'bedrijfslening', 
                   'yl iv limited', 'yeaz', 'nordiska', 'trustly group', 'capitalbox', 'rabobank zakelijk financieren']

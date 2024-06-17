@@ -1,9 +1,10 @@
 import sys
 import json
 import datetime
+from collections import Counter
 
 #keywords
-incassos = [ 'incassobureau', 'incasso bureau', 'groot & evers', 'van der Velde en van Hal', 
+incassos = ['incassobureau', 'incasso bureau', 'groot & evers', 'van der Velde en van Hal', 
             'ultimoo', 'flanderijn ', 'collactivebmk', 'bierens ', 'avi ', 'syncasso', 'straetus', 'ggn ', 
             'vesting', 'debtt ', 'Gerechtsdeurwaarder', 'deurwaarder', 'korenhof', 'kbkp', 'collect4u', 'actis', 'derdenbeslag', 
             'invorderings', ' bru ', 'hoist', ' bvcm', 'coeo incasso', 'intrum', 'alektum', 'hafkamp', 'atradius', 
@@ -16,9 +17,9 @@ loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto',
              'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin ', 'betfair', 
              'fair game software kft', 'damagi marketing solutions', 'kansino', 'revoapps', 'lotterie','pokerstars', 'lottery', 'vof brouwer en keet', 'merkur casino',
              'fair play casino', 'kraken ']
-financierders = ['youlend', 'yl limited', 'trustly', 'qredits', 'qred', 'floryn', 'online payment platform', 'collin crowdfund',
+financierders = ['youlend', 'yl limited', 'trustly', 'qredits', 'qred ', 'floryn', 'online payment platform', 'collin crowdfund',
                   'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', ' regeling', 'bondora', 'bedrijfslening', 
-                  'yl iv limited', 'yeaz', 'nordiska', 'trustly group', 'capitalbox', 'rabobank zakelijk financieren']
+                  'yl iv limited', 'yeaz', 'nordiska', 'trustly group', 'capitalbox', 'rabobank zakelijk financieren', 'opr-finance']
 policy = ['coffeeshop']
 
 # check for correct usage
@@ -28,7 +29,7 @@ if len(sys.argv) < 2:
 
 filename = sys.argv[1]
 current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-yearago = datetime.datetime.now() - datetime.timedelta(days=366)
+yearago = datetime.datetime.now() - datetime.timedelta(days=367)
 
 try:
     with open(filename, 'r') as file:
@@ -42,7 +43,7 @@ try:
         bd_terug = 0
         counter_bd = 0
         processed_id = set()
-
+        duplicate_bd = {}
 
 
         #transactions = data.get('transactions', [])
@@ -62,16 +63,18 @@ try:
                     search_text = f"{description} {name} {original_name}"
 
 
-
-
+                # Belasting dienst uitgaven
                 if 'belastingdienst' in name and amount < 0:
                     if transaction_id not in processed_id:
                         processed_id.add(transaction_id)
                         bd_uit += amount
-                        print(f"{amount:.0f} --- BD uitgave - {date}")
-                        duplicate_bd = {}
+                        #duplicate_bd.append(amount)
+                        #print(f"{amount:.0f} --- BD uitgave - {date}")
                         if amount in duplicate_bd:
-                            counter_bd += 1
+                            duplicate_bd[amount] += 1
+                        else:
+                            duplicate_bd[amount] = 1
+
 
                 # !!! WATCH OUT FOR 'teveelbet' !!!
                 if 'belastingdienst' in name and 'teruggaaf'  or 'teveelbet' in description:
@@ -128,7 +131,12 @@ try:
         print(f"belastingdienst teruggave: {bd_terug:.0f}")
         print(f"belastingdienst uitgaven: {bd_uit:.0f}")
         print(counter_bd)
-
+        print("\n --- Duplicates --- \n")
+        for amount, count in duplicate_bd.items():
+            if count > 1:
+                print(f"{amount} --- BD uitgave - {count} keer")
+            if amount in [-500, -1000, -1500, -2000, -2500, -3000, -3500, -4000, -4500, -5000]:
+                print(f"{amount} --- BD uitgave - {count} keer")
         print("\n")
 
 

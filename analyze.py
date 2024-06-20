@@ -4,15 +4,15 @@ import datetime
 from collections import Counter
 
 #keywords
-incassos = ['incassobureau', 'incasso bureau', 'groot & evers', 'van der Velde en van Hal', 
-            'ultimoo', 'flanderijn ', 'collactivebmk', 'bierens ', 'avi ', 'syncasso', 'straetus', 'ggn ', 
+incassos = ['incassobureau', 'incasso bureau', 'groot & evers', 'van der Velde en van Hal', 'graydon incasso',
+            'ultimoo', 'flanderijn ', 'collactivebmk', 'bierens ', 'avi ', 'syncasso', 'straetus', 'ggn mastering', 
             'vesting', 'debtt ', 'Gerechtsdeurwaarder', 'deurwaarder', 'korenhof', 'kbkp', 'collect4u', 'actis', 'derdenbeslag', 
             'invorderings', ' bru ', 'hoist', ' bvcm', 'coeo incasso', 'intrum', 'alektum', 'hafkamp', 'atradius', 
             'lavg', 'intocash', 'intojuristen', 'steghuis', 'janssen & janssen', 'lindorff', 'credios', 'credifix', 'in-kas',
             'cannock ','zuidweg ', 'debtco', 'jongerius', 'bazuin & partners', 'agin pranger', 'nl81abna0447354663', 'de schout ', 'caminada ',
             'Nationale Grote Club', 'trust krediet beheer', 'bvcm', 'Geerlings + Hofstede', 'debt recovery', 'debt collection agency', 'yards ', ' tkb', 'vd+p', 'call2collect',
-            'juristo', 'inkassier', 'medicas bv', 'betaling dossier', 'infoscore collection', 'koning & de raadt', 'betalingsregeling', 'graydon incasso', 'rezeev',
-            'juresta', 'perfect incasso']
+            'juristo', 'inkassier', 'medicas bv', 'betaling dossier', 'infoscore collection', 'koning & de raadt', 'betalingsregeling', 'rezeev',
+            'juresta', 'perfect incasso', 'dbo finance']
 loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto', 'poker', 'coinbase', ' trekking', 'uab alternative payments', 'retrust ou', 
              'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin ', 'betfair', 
              'fair game software kft', 'damagi marketing solutions', 'kansino', 'revoapps', 'lotterie','pokerstars', 'lottery', 'vof brouwer en keet', 'merkur casino',
@@ -44,6 +44,7 @@ try:
         counter_bd = 0
         processed_id = set()
         duplicate_bd = {}
+        description = {}
 
 
         #transactions = data.get('transactions', [])
@@ -68,15 +69,12 @@ try:
                     if transaction_id not in processed_id:
                         processed_id.add(transaction_id)
                         bd_uit += amount
-                        #duplicate_bd.append(amount)
-                        #print(f"{amount:.0f} --- BD uitgave - {date}")
                         if amount in duplicate_bd:
                             duplicate_bd[amount] += 1
                         else:
                             duplicate_bd[amount] = 1
 
-
-                # !!! WATCH OUT FOR 'teveelbet' !!!
+                # BD teruggaven
                 if 'belastingdienst' in name and 'teruggaaf'  or 'teveelbet' in description:
                     if transaction_id not in processed_id:
                         processed_id.add(transaction_id)
@@ -98,17 +96,18 @@ try:
                         if transaction_id not in processed_id:
                             processed_id.add(transaction_id)
                             fin_sum += amount
+                            print(f"{amount} --- {keyword} (+ Financiering) - {date} ")
                     if keyword.lower() in search_text and amount < 0:
                         #check duplicates
                         if transaction_id not in processed_id:
                             processed_id.add(transaction_id)
                             pay_fin += amount
-                            print(f"{amount:.0f} --- {keyword} (Financiering) - {date} ")
+                            print(f"{amount} --- {keyword} (- Financiering) - {date} ")
   
                 for keyword in incassos:
                     if keyword.lower() in search_text and  'centraal justitieel incassobureau' not in search_text:
                         #check duplicates
-                        if transaction_id not in processed_id:
+                        if transaction_id not in processed_id and amount < 0:
                             incasso_sum += amount
                             processed_id.add(transaction_id)
                             print(f"{amount:.0f} --- {keyword} (Incasso) - {date}")
@@ -122,6 +121,9 @@ try:
                             loterijen_sum += amount
                             print(f"{amount:.0f} --- {keyword} (Loterij) - {date} ")
         
+                #check for stornos 
+
+
         print("\n")
         print(f"incasso: {incasso_sum:.0f}")
         print(f"loterijen: {loterijen_sum:.0f}")
@@ -132,13 +134,13 @@ try:
         print(f"belastingdienst uitgaven: {bd_uit:.0f}")
         print(counter_bd)
         print("\n --- Duplicates --- \n")
+
         for amount, count in duplicate_bd.items():
             if count > 1:
                 print(f"{amount} --- BD uitgave - {count} keer")
-            if amount in [-500, -1000, -1500, -2000, -2500, -3000, -3500, -4000, -4500, -5000]:
+            elif amount in [-500, -1000, -1500, -2000, -2500, -3000, -3500, -4000, -4500, -5000, -5500, -6000, -6500]:
                 print(f"{amount} --- BD uitgave - {count} keer")
         print("\n")
-
 
 
 except FileNotFoundError:

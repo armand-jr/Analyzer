@@ -29,7 +29,7 @@ if len(sys.argv) < 2:
 
 filename = sys.argv[1]
 current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-yearago = datetime.datetime.now() - datetime.timedelta(days=367)
+yearago = datetime.datetime.now() - datetime.timedelta(days=370)
 
 try:
     with open(filename, 'r') as file:
@@ -42,12 +42,14 @@ try:
         bd_uit = 0
         bd_terug = 0
         counter_bd = 0
+        count_storno = 0
+        storno_amount = 0
         processed_id = set()
         duplicate_bd = {}
-        description = {}
+        storneringen = {}
 
 
-        #transactions = data.get('transactions', [])
+        transactions = data.get('transactions', [])#
         for account in data['accounts']:
             for transaction in account['transactions']:
                 date = transaction.get('transactionDate', '').split('T')[0]
@@ -60,9 +62,13 @@ try:
                     name = beneficiary.get('name', '').lower()
                     original_name = beneficiary.get('originalName', '').lower()
                     date = transaction.get('transactionDate', '').split('T')[0]
-
                     search_text = f"{description} {name} {original_name}"
+                    storno_desc = f"{description} {name}"
 
+                    #######
+                    for key, value in zip(storno_desc, amount):
+                        storneringen[key] = value
+                    #######
 
                 # Belasting dienst uitgaven
                 if 'belastingdienst' in name and amount < 0:
@@ -122,6 +128,9 @@ try:
                             print(f"{amount:.0f} --- {keyword} (Loterij) - {date} ")
         
                 #check for stornos 
+                for storno in storneringen:
+                    if storno in storno_desc:
+                        count_storno += 1
 
 
         print("\n")
@@ -140,7 +149,11 @@ try:
                 print(f"{amount} --- BD uitgave - {count} keer")
             elif amount in [-500, -1000, -1500, -2000, -2500, -3000, -3500, -4000, -4500, -5000, -5500, -6000, -6500]:
                 print(f"{amount} --- BD uitgave - {count} keer")
+        print(storneringen)
         print("\n")
+        print(" --- Storneringen --- ")
+        print(count_storno)
+        
 
 
 except FileNotFoundError:

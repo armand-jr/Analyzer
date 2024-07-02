@@ -18,8 +18,8 @@ loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto',
              'fair game software kft', 'damagi marketing solutions', 'kansino', 'revoapps', 'lotterie','pokerstars', 'lottery', 'vof brouwer en keet', 'merkur casino',
              'fair play casino', 'kraken ']
 financierders = ['youlend', 'yl limited', 'trustly', 'qredits', 'qred ', 'floryn', 'online payment platform', 'collin crowdfund',
-                  'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', ' regeling', 'bondora', 'bedrijfslening', 
-                  'yl iv limited', 'yeaz', 'nordiska', 'trustly group', 'capitalbox', 'rabobank zakelijk financieren', 'opr-finance']
+                  'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', ' regeling', 'bondora', 
+                  'yl iv limited', 'yeaz', 'nordiska', 'trustly group', 'capitalbox', 'rabobank zakelijk financieren', 'opr-finance', 'bedrijfslening']
 policy = ['coffeeshop']
 
 # check for correct usage
@@ -66,8 +66,8 @@ try:
                     storno_desc = f"{description} {name}"
 
                     #######
-                    for key, value in zip(storno_desc, amount):
-                        storneringen[key] = value
+                    #for key, value in zip(storno_desc, amount):
+                    #    storneringen[key] = value
                     #######
 
                 # Belasting dienst uitgaven
@@ -75,6 +75,7 @@ try:
                     if transaction_id not in processed_id:
                         processed_id.add(transaction_id)
                         bd_uit += amount
+                        #print (f"{amount:.0f} --- BD uitgave - {date}")
                         if amount in duplicate_bd:
                             duplicate_bd[amount] += 1
                         else:
@@ -85,7 +86,7 @@ try:
                     if transaction_id not in processed_id:
                         processed_id.add(transaction_id)
                         bd_terug += amount
-                        print(f"{amount:.0f} --- BD teruggave - {date}") 
+                        #print(f"{amount:.0f} --- BD teruggave - {date}") 
 
 
                 #print(search_text)
@@ -145,9 +146,9 @@ try:
         print("\n --- Duplicates --- \n")
 
         for amount, count in duplicate_bd.items():
-            if count > 1:
+            if count > 1 and amount < -70: 
                 print(f"{amount} --- BD uitgave - {count} keer")
-            elif amount in [-500, -1000, -1500, -2000, -2500, -3000, -3500, -4000, -4500, -5000, -5500, -6000, -6500]:
+            elif amount in [-500, -1000, -1500, -2000, -2500, -3000, -3500, -4000, -4500, -5000, -5500, -6000, -6500, -7000, -7500, -8000]:
                 print(f"{amount} --- BD uitgave - {count} keer")
         print(storneringen)
         print("\n")

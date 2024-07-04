@@ -46,7 +46,7 @@ try:
         storno_amount = 0
         processed_id = set()
         duplicate_bd = {}
-        storneringen = {}
+        storneringen = []
 
 
         transactions = data.get('transactions', [])#
@@ -64,7 +64,8 @@ try:
                     date = transaction.get('transactionDate', '').split('T')[0]
                     search_text = f"{description} {name} {original_name}"
                     storno_desc = f"{description} {name}"
-                    storneringen[storno_desc] = amount
+                    storneringen.append(storno_desc)
+
 
                 # Belasting dienst uitgaven
                 if 'belastingdienst' in name and amount < 0:

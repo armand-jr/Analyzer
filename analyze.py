@@ -5,7 +5,7 @@ from collections import Counter
 
 #keywords
 incassos = ['incassobureau', 'incasso bureau', 'groot & evers', 'van der Velde en van Hal', 'graydon incasso',
-            'ultimoo', 'flanderijn ', 'collactivebmk', 'bierens ', 'avi ', 'syncasso', 'straetus', 'ggn mastering', 
+            'ultimoo', 'flanderijn ', 'collactivebmk', 'bierens ', ' avi ', 'syncasso', 'straetus', 'ggn mastering', 
             'vesting', 'debtt ', 'Gerechtsdeurwaarder', 'deurwaarder', 'korenhof', 'kbkp', 'collect4u', 'actis', 'derdenbeslag', 
             'invorderings', ' bru ', 'hoist', ' bvcm', 'coeo incasso', 'intrum', 'alektum', 'hafkamp', 'atradius', 
             'lavg', 'intocash', 'intojuristen', 'steghuis', 'janssen & janssen', 'lindorff', 'credios', 'credifix', 'in-kas',
@@ -16,8 +16,8 @@ incassos = ['incassobureau', 'incasso bureau', 'groot & evers', 'van der Velde e
 loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto', 'poker', 'coinbase', ' trekking', 'uab alternative payments', 'retrust ou', 
              'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin ', 'betfair', 
              'fair game software kft', 'damagi marketing solutions', 'kansino', 'revoapps', 'lotterie','pokerstars', 'lottery', 'vof brouwer en keet', 'merkur casino',
-             'fair play casino', 'kraken ']
-financierders = ['youlend', 'yl limited', 'trustly', 'qredits', 'qred ', 'floryn', 'online payment platform', 'collin crowdfund',
+             'fair play casino', 'kraken ', 'google play store by globalcollect']
+financierders = ['youlend', 'yl limited', 'qeld', 'trustly', 'qredits', 'qred ', 'floryn', 'mkb krediet nederland', 'mollie capital', 'online payment platform', 'collin crowdfund',
                   'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', ' regeling', 'bondora', 
                   'yl iv limited', 'yeaz', 'nordiska', 'trustly group', 'capitalbox', 'rabobank zakelijk financieren', 'opr-finance', 'bedrijfslening']
 policy = ['coffeeshop']
@@ -64,11 +64,7 @@ try:
                     date = transaction.get('transactionDate', '').split('T')[0]
                     search_text = f"{description} {name} {original_name}"
                     storno_desc = f"{description} {name}"
-
-                    #######
-                    #for key, value in zip(storno_desc, amount):
-                    #    storneringen[key] = value
-                    #######
+                    storneringen[storno_desc] = amount
 
                 # Belasting dienst uitgaven
                 if 'belastingdienst' in name and amount < 0:
@@ -129,9 +125,13 @@ try:
                             print(f"{amount:.0f} --- {keyword} (Loterij) - {date} ")
         
                 #check for stornos 
-                for storno in storneringen:
-                    if storno in storno_desc:
-                        count_storno += 1
+
+                count_storno = Counter(storneringen.values())
+
+                #for storno, amount in storneringen.items():
+                #    if storno == storno_desc:
+                #        count_storno += 1
+                        #print(storno)
 
 
         print("\n")
@@ -144,13 +144,13 @@ try:
         print(f"belastingdienst uitgaven: {bd_uit:.0f}")
         print(counter_bd)
         print("\n --- Duplicates --- \n")
+        print (duplicate_bd.items())
 
         for amount, count in duplicate_bd.items():
             if count > 1 and amount < -70: 
                 print(f"{amount} --- BD uitgave - {count} keer")
-            elif amount in [-500, -1000, -1500, -2000, -2500, -3000, -3500, -4000, -4500, -5000, -5500, -6000, -6500, -7000, -7500, -8000]:
+            elif amount in [-500, -1000, -1500, -2000, -2500, -3000, -3500, -4000, -4500, -5000, -5500, -6000, -6500, -7000, -7500, -8000, -10000, -15000, -20000, -25000, -30000]:
                 print(f"{amount} --- BD uitgave - {count} keer")
-        print(storneringen)
         print("\n")
         print(" --- Storneringen --- ")
         print(count_storno)

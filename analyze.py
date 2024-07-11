@@ -8,12 +8,12 @@ from collections import Counter, defaultdict
 incassos = ['incassobureau', 'incasso bureau', 'groot & evers', 'van der Velde en van Hal', 'graydon incasso',
             'ultimoo', 'flanderijn ', 'collactivebmk', 'bierens ', ' avi ', 'syncasso', 'straetus', 'ggn mastering', 
             'vesting', 'debtt ', 'Gerechtsdeurwaarder', 'deurwaarder', 'korenhof', 'kbkp', 'collect4u', 'actis', 'derdenbeslag', 
-            'invorderings', ' bru ', 'hoist', ' bvcm', 'coeo incasso', 'intrum', 'alektum', 'hafkamp', 'atradius', 
+            'invorderings', 'bru incasso', 'hoist', ' bvcm', 'coeo incasso', 'intrum', 'alektum', 'hafkamp', 'atradius collections', 
             'lavg', 'intocash', 'intojuristen', 'steghuis', 'janssen & janssen', 'lindorff', 'credios', 'credifix', 'in-kas',
-            'cannock ','zuidweg ', 'debtco', 'jongerius', 'bazuin & partners', 'agin pranger', 'nl81abna0447354663', 'de schout ', 'caminada ',
+            'cannock','zuidweg ', 'debtco', 'jongerius', 'bazuin & partners', 'agin pranger', 'nl81abna0447354663', 'de schout ', 'caminada ',
             'Nationale Grote Club', 'trust krediet beheer', 'bvcm', 'Geerlings + Hofstede', 'debt recovery', 'debt collection agency', 'yards ', ' tkb', 'vd+p', 'call2collect',
             'juristo', 'inkassier', 'medicas bv', 'betaling dossier', 'infoscore collection', 'koning & de raadt', 'betalingsregeling', 'rezeev',
-            'juresta', 'perfect incasso', 'dbo finance', 'credifixx', 'of london', 'bos incasso']
+            'juresta', 'perfect incasso', 'dbo finance', 'credifixx', 'of london', 'bos incasso', 'ikinkbekman']
 loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto', 'poker', 'coinbase', ' trekking', 'uab alternative payments', 'retrust ou', 
              'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin ', 'betfair', 
              'fair game software kft', 'damagi marketing solutions', 'kansino', 'revoapps', 'lotterie','pokerstars', 'lottery', 'vof brouwer en keet', 'merkur casino',
@@ -63,6 +63,7 @@ try:
                     name = beneficiary.get('name', '').lower()
                     original_name = beneficiary.get('originalName', '').lower()
                     date = transaction.get('transactionDate', '').split('T')[0]
+                    doublename = name + original_name
                     search_text = f"{description} {name} {original_name}"
                     storno_desc = f"{description} {name}"
                     storneringen.append((storno_desc, amount))
@@ -90,9 +91,9 @@ try:
                 #print(search_text)
                 if len(sys.argv) == 3:
                     account_holder = sys.argv[2] 
-                    if account_holder.lower() or "priverekening" in name:
+                    if account_holder.lower()  in doublename:
                         prive_sum += amount
-                        #print(f"{amount:.0f} --- Account holder: {account_holder} (Prive) {transaction_id}")      
+                        # "priverekening" mist nog
 
 
                 for keyword in financierders:

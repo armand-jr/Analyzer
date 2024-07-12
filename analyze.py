@@ -50,7 +50,7 @@ try:
         storneringen = []
 
 
-        transactions = data.get('transactions', [])#
+        transactions = data.get('transactions', [])
         for account in data['accounts']:
             for transaction in account['transactions']:
                 date = transaction.get('transactionDate', '').split('T')[0]
@@ -76,9 +76,12 @@ try:
                         bd_uit += amount
                         #print (f"{amount:.0f} --- BD uitgave - {date}")
                         if amount in duplicate_bd:
+                            #and date > (datetime.datetime.now() - datetime.timedelta(days=90)).strftime('%Y-%m-%d')
                             duplicate_bd[amount] += 1
                         else:
                             duplicate_bd[amount] = 1
+                        
+
 
                 # BD teruggaven
                 if 'belastingdienst' in name and 'teruggaaf'  or 'teveelbet' in description:
@@ -142,7 +145,7 @@ try:
         print("\n --- Duplicates --- \n")
 
         for amount, count in duplicate_bd.items():
-            if count > 1 and amount < -70: 
+            if count > 2 and amount < -70: 
                 print(f"{amount} --- BD uitgave - {count} keer")
             elif amount in [-500, -1000, -1500, -2000, -2500, -3000, -3500, -4000, -4500, -5000, -5500, -6000, -6500, -7000, -7500, -8000, -10000, -15000, -20000, -25000, -30000]:
                 print(f"{amount} --- BD uitgave - {count} keer")

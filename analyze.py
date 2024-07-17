@@ -13,14 +13,14 @@ incassos = ['incassobureau', 'incasso bureau', 'groot & evers', 'van der Velde e
             'cannock','zuidweg ', 'debtco', 'jongerius', 'bazuin & partners', 'agin pranger', 'nl81abna0447354663', 'de schout ', 'caminada ',
             'Nationale Grote Club', 'trust krediet beheer', 'bvcm', 'Geerlings + Hofstede', 'debt recovery', 'debt collection agency', 'yards ', ' tkb', 'vd+p', 'call2collect',
             'juristo', 'inkassier', 'medicas bv', 'betaling dossier', 'infoscore collection', 'koning & de raadt', 'betalingsregeling', 'rezeev',
-            'juresta', 'perfect incasso', 'dbo finance', 'credifixx', 'of london', 'bos incasso', 'ikinkbekman']
+            'juresta', 'perfect incasso', 'dbo finance', 'credifixx', 'of london', 'bos incasso', 'ikinkbekman', 'bcde faktuur', 'plaggemars incasso', 'e legal', 'e-legal']
 loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto', 'poker', 'coinbase', ' trekking', 'uab alternative payments', 'retrust ou', 
              'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin ', 'betfair', 
              'fair game software kft', 'damagi marketing solutions', 'kansino', 'revoapps', 'lotterie','pokerstars', 'lottery', 'vof brouwer en keet', 'merkur casino',
              'fair play casino', 'kraken ', 'google play store by globalcollect']
-financierders = ['youlend', 'yl limited', 'qeld', 'trustly', 'qredits', 'qred ', 'floryn', 'mkb krediet nederland', 'mollie capital', 'online payment platform', 'collin crowdfund',
+financierders = ['youlend', 'yl limited', 'qeld', 'qredits', 'qred ', 'floryn', 'mkb krediet nederland', 'mollie capital', 'online payment platform', 'collin crowdfund',
                   'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', ' regeling', 'bondora', 'capital circle b.v.',
-                  'yl iv limited', 'yeaz', 'nordiska', 'trustly group', 'capitalbox', 'rabobank zakelijk financieren', 'opr-finance', 'bedrijfslening']
+                  'yl iv limited', 'yeaz', 'nordiska', 'capitalbox', 'rabobank zakelijk financieren', 'opr-finance', 'bedrijfslening', 'crowdfund']
 policy = ['coffeeshop']
 
 # check for correct usage
@@ -94,8 +94,10 @@ try:
                 #print(search_text)
                 if len(sys.argv) == 3:
                     account_holder = sys.argv[2] 
-                    if account_holder.lower()  in doublename:
-                        prive_sum += amount
+                    if transaction_id not in processed_id:
+                        processed_id.add(transaction_id)
+                        if account_holder.lower()  in doublename:
+                            prive_sum += amount
                         # "priverekening" mist nog
 
 

@@ -21,7 +21,8 @@ loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto',
              'fair play casino', 'kraken ', 'google play store by globalcollect', '711 bv']
 financierders = ['youlend', 'yl limited', 'qeld', 'qredits', 'qred ', 'floryn', 'mkb krediet nederland', 'mollie capital', 'online payment platform', 'collin crowdfund',
                   'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', ' regeling', 'bondora', 'capital circle b.v.',
-                  'yl iv limited', 'yeaz', 'nordiska', 'capitalbox', 'rabobank zakelijk financieren', 'opr-finance', 'bedrijfslening', 'crowdfund', 'european merchant finance']
+                  'yl iv limited', 'yeaz', 'nordiska', 'capitalbox', 'rabobank zakelijk financieren', 'opr-finance', 'bedrijfslening', 'crowdfund', 'european merchant finance',
+                  'geldvoorelkaar']
 policy = ['coffeeshop']
 
 # check for correct usage
@@ -68,6 +69,7 @@ try:
                     search_text = f"{description} {name} {original_name}"
                     storno_desc = f"{description} {name}"
                     storneringen.append((storno_desc, amount))
+                     
 
 
                 # Belasting dienst uitgaven
@@ -94,11 +96,11 @@ try:
 
                 #print(search_text)
                 if len(sys.argv) == 3:
-                    account_holder = sys.argv[2] 
-                    if transaction_id not in processed_id:
-                        processed_id.add(transaction_id)
-                        if account_holder.lower()  in doublename:
+                    account_holder = sys.argv[2]
+                    if account_holder.lower()  in doublename:
+                        if transaction_id not in processed_id and date > yearago.strftime('%Y-%m-%d'):
                             prive_sum += amount
+                            processed_id.add(transaction_id)
                         # "priverekening" mist nog
 
 
@@ -116,6 +118,7 @@ try:
                             pay_fin += amount
                             print(f"{amount} --- {keyword} (- Financiering) - {date} ")
   
+
                 for keyword in incassos:
                     if keyword.lower() in search_text and  'centraal justitieel incassobureau' not in search_text:
                         #check duplicates

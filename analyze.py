@@ -7,22 +7,22 @@ from collections import Counter, defaultdict
 #keywords
 incassos = ['incassobureau', 'incasso bureau', 'groot & evers', 'van der Velde en van Hal', 'graydon incasso',
             'ultimoo', 'flanderijn ', 'collactivebmk', 'bierens ', ' avi ', 'syncasso', 'straetus', 'ggn mastering', 
-            'vesting', 'debtt ', 'Gerechtsdeurwaarder', 'deurwaarder', 'korenhof', 'kbkp', 'collect4u', 'actis', 'derdenbeslag', 
+            'vesting', 'debtt ', 'inkassier', 'Gerechtsdeurwaarder', 'deurwaarder', 'korenhof', 'kbkp', 'collect4u', 'actis', 'derdenbeslag', 
             'invorderings', 'bru incasso', 'hoist', ' bvcm', 'coeo incasso', 'intrum', 'alektum', 'hafkamp', 'atradius collections', 
             'lavg', 'intocash', 'intojuristen', 'steghuis', 'janssen & janssen', 'lindorff', 'credios', 'credifix', 'in-kas',
             'cannock','zuidweg ', 'debtco', 'jongerius', 'bazuin & partners', 'agin pranger', 'agin nederland', 'nl81abna0447354663', 'de schout ', 'caminada ',
             'Nationale Grote Club', 'trust krediet beheer', 'bvcm', 'Geerlings + Hofstede', 'debt recovery', 'debt collection agency', 'yards ', ' tkb', 'vd+p', 'call2collect',
-            'juristo', 'inkassier', 'medicas bv', 'betaling dossier', 'infoscore collection', 'koning & de raadt', 'rezeev',
+            'juristo',  'medicas bv', 'betaling dossier', 'infoscore collection', 'koning & de raadt', 'rezeev',
             'juresta', 'perfect incasso', 'dbo finance', 'credifixx', 'of london', 'bos incasso', 'ikinkbekman', 'bcde faktuur', 'plaggemars incasso', 'e legal', 'e-legal', 'dicore',
             'abc incasso', 'top credit management', 'centraal invorderings bureau', 'invorderingbureau', 'creditdefence', 'rechtbank', 'debicon ']
 loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto', 'poker', 'coinbase', ' trekking', 'uab alternative payments', 'retrust ou', 
              'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin ', 'betfair', 
              'fair game software kft', 'damagi marketing solutions', 'kansino', 'revoapps', 'lotterie','pokerstars', 'lottery', 'vof brouwer en keet', 'merkur casino',
-             'fair play casino', 'kraken ', 'google play store by globalcollect', '711 bv', 'optdeck service limited', 'curo payments']
+             'fair play casino', 'kraken ', 'google play store by globalcollect', '711 bv', 'optdeck service limited', 'curo payments', 'nsc, utr']
 financierders = ['youlend', 'yl limited', 'qeld', 'qredits', 'qred ', 'floryn', 'mkb krediet nederland', 'mollie capital', 'collin crowdfund',
                   'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', ' regeling', 'bondora', 'capital circle b.v.',
                   'yl iv limited', 'yeaz', 'saldodipje', 'nordiska', 'capitalbox', 'rabobank zakelijk financieren', 'opr-finance', 'bedrijfslening', 'crowdfund', 'european merchant finance',
-                  'geldvoorelkaar', 'betalingsregeling']
+                  'geldvoorelkaar', 'betalingsregeling', 'oncilla funding']
 policy = ['coffeeshop']
 
 # check for correct usage
@@ -47,9 +47,11 @@ try:
         counter_bd = 0
         count_storno = 0
         storno_amount = 0
+        policy_sum = 0
         processed_id = set()
         duplicate_bd = {}
         storneringen = []
+        policy_list = []
 
 
         transactions = data.get('transactions', [])
@@ -134,7 +136,16 @@ try:
                         if transaction_id not in processed_id and amount < 0:
                             processed_id.add(transaction_id)
                             loterijen_sum += amount
-                            print(f"{amount:.0f} --- {keyword} (Loterij) - {date} - {transaction_id}")
+                            print(f"{amount:.0f} --- {keyword} (Loterij) - {date}")
+
+                for keyword in policy:
+                    if keyword.lower() in search_text:
+                        #check duplicates
+                        if transaction_id not in processed_id:
+                            processed_id.add(transaction_id)
+                            policy_list.append((keyword))
+                            policy_sum += amount
+                            print(f"{amount:.0f} --- {keyword} - {date} ")
         
                 #check for stornos 
 
@@ -147,7 +158,8 @@ try:
         print(f"betalingen aan financierders: {pay_fin:.0f}")
         print(f"belastingdienst teruggave: {bd_terug:.0f}")
         print(f"belastingdienst uitgaven: {bd_uit:.0f}")
-        print(counter_bd)
+        if policy_sum < 0:
+            print(f"policy: {policy_sum:.0f} --- {policy_list}")
         print("\n --- Duplicates --- \n")
 
         for amount, count in duplicate_bd.items():

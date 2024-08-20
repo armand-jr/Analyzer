@@ -11,7 +11,7 @@ incassos = ['incassobureau', 'incasso bureau', 'groot & evers', 'van der Velde e
             'invorderings', 'bru incasso', 'hoist', ' bvcm', 'coeo incasso', 'intrum', 'alektum', 'hafkamp', 'atradius collections', 
             'lavg', 'intocash', 'intojuristen', 'steghuis', 'janssen & janssen', 'lindorff', 'credios', 'credifix', 'in-kas',
             'cannock','zuidweg ', 'debtco', 'jongerius', 'bazuin & partners', 'agin pranger', 'agin nederland', 'nl81abna0447354663', 'de schout ', 'caminada ',
-            'Nationale Grote Club', 'trust krediet beheer', 'bvcm', 'Geerlings + Hofstede', 'debt recovery', 'debt collection agency', 'yards ', ' tkb', 'vd+p', 'call2collect',
+            'Nationale Grote Club', 'trust krediet beheer', 'bvcm', 'geerlings + hofstede', 'geerlings hofstede', 'debt recovery', 'debt collection agency', 'yards ', ' tkb', 'vd+p', 'call2collect',
             'juristo',  'medicas bv', 'betaling dossier', 'infoscore collection', 'koning & de raadt', 'rezeev',
             'juresta', 'perfect incasso', 'dbo finance', 'credifixx', 'of london', 'bos incasso', 'ikinkbekman', 'bcde faktuur', 'plaggemars incasso', 'e legal', 'e-legal', 'dicore',
             'abc incasso', 'top credit management', 'centraal invorderings bureau', 'invorderingbureau', 'creditdefence', 'rechtbank', 'debicon ']
@@ -20,9 +20,9 @@ loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto',
              'fair game software kft', 'damagi marketing solutions', 'kansino', 'revoapps', 'lotterie','pokerstars', 'lottery', 'vof brouwer en keet', 'merkur casino',
              'fair play casino', 'kraken ', 'google play store by globalcollect', '711 bv', 'optdeck service limited', 'curo payments', 'nsc, utr']
 financierders = ['youlend', 'yl limited', 'qeld', 'qredits', 'qred ', 'floryn', 'mkb krediet nederland', 'mollie capital', 'collin crowdfund',
-                  'swishfund', 'funding circle', 'findio', 'new10', 'dutchfinance', ' regeling', 'bondora', 'capital circle b.v.',
-                  'yl iv limited', 'yeaz', 'saldodipje', 'nordiska', 'capitalbox', 'rabobank zakelijk financieren', 'opr-finance', 'bedrijfslening', 'crowdfund', 'european merchant finance',
-                  'geldvoorelkaar', 'betalingsregeling', 'oncilla funding']
+                  'swishfund', 'funding circle', 'new10', 'dutchfinance', ' regeling', 'bondora', 'capital circle b.v.',
+                  'yl iv limited', 'yeaz', 'saldodipje', 'defam', 'nordiska', 'capitalbox', 'rabobank zakelijk financieren', 'opr-finance', 'bedrijfslening', 'crowdfund', 'european merchant finance',
+                  'geldvoorelkaar', 'betalingsregeling', 'betaalafspraak', 'oncilla funding']
 policy = ['coffeeshop']
 
 # check for correct usage

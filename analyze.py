@@ -9,16 +9,18 @@ incassos = ['incassobureau', 'incasso bureau', 'groot & evers', 'van der Velde e
             'ultimoo', 'flanderijn ', 'collactivebmk', 'bierens ', ' avi ', 'syncasso', 'straetus', 'ggn mastering', 
             'vesting', 'debtt ', 'inkassier', 'Gerechtsdeurwaarder', 'deurwaarder', 'korenhof', 'kbkp', 'collect4u', 'actis', 'derdenbeslag', 
             'invorderings', 'bru incasso', 'hoist', ' bvcm', 'coeo incasso', 'intrum', 'alektum', 'hafkamp', 'atradius collections', 
-            'lavg', 'intocash', 'cash control', 'intojuristen', 'steghuis', 'janssen & janssen', 'lindorff', 'credios', 'credifix', 'in-kas',
+            'lavg', 'intocash', 'cash control', 'cashcontrol', 'intojuristen', 'steghuis', 'janssen & janssen', 'lindorff', 'credios', 'credifix', 'in-kas',
             'cannock','zuidweg ', 'debtco', 'jongerius', 'bazuin & partners', 'agin pranger', 'agin nederland', 'nl81abna0447354663', 'de schout ', 'caminada ',
             'Nationale Grote Club', 'trust krediet beheer', 'bvcm', 'geerlings + hofstede', 'geerlings hofstede', 'debt recovery', 'debt collection agency', 'yards ', ' tkb', 'vd+p', 'call2collect',
-            'juristo',  'medicas bv', 'betaling dossier', 'infoscore collection', 'koning & de raadt', 'rezeev', 'van den berg de rie & uyterlinde',
+            'juristo',  'medicas bv', 'betaling dossier', 'infoscore collection', 'koning & de raadt', 'rezeev', 'van den berg de rie & uyterlinde', 'florijnincasso',
             'juresta', 'perfect incasso', 'dbo finance', 'ads incasso', 'credifixx', 'of london', 'bos incasso', 'ikinkbekman', 'bcde faktuur', 'plaggemars incasso', 'e legal', 'e-legal', 'dicore',
-            'abc incasso', 'opmaat incasso', 'top credit management', 'centraal invorderings bureau', 'invorderingbureau', 'creditdefence', 'rechtbank', 'debicon ', 'money management']
+            'abc incasso', 'opmaat incasso', 'top credit management', 'centraal invorderings bureau', 'invorderingbureau', 'creditdefence', 'rechtbank', 'debicon ', 'money management', 'payq incasso',
+            'brackeva', 'euler collections', 'vrh-incasso', 'incassocenter', 'stichting beheer derdengelden advocatuur pels rijcken']
 loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto', 'poker', 'coinbase', ' trekking', 'uab alternative payments', 'retrust ou', 
-             'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin ', 'betfair', 
+             'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin ', 'betfair', 'nexo add funds',
              'fair game software kft', 'damagi marketing solutions', 'kansino', 'revoapps', 'lotterie','pokerstars', 'lottery', 'vof brouwer en keet', 'merkur casino',
-             'fair play casino', 'kraken ', 'google play store by globalcollect', '711 bv', 'optdeck service limited', 'curo payments', 'nsc, utr', 'golden palace']
+             'fair play casino', 'kraken ', 'google play store by globalcollect', '711 bv', 'optdeck service limited', 'curo payments', 'nsc, utr', 'golden palace', 'n1 interactive limited', 'fair game software kft',
+             'banxa', 'bybit', 'eurocoin gaming']
 financierders = ['youlend', 'yl limited', 'qeld', 'qredits', 'qred ', 'floryn', 'mkb krediet nederland', 'mollie capital', 'collin crowdfund',
                   'swishfund', 'funding circle', 'new10', 'dutchfinance', ' regeling', 'bondora', 'capital circle b.v.',
                   'yl iv limited', 'yeaz', 'saldodipje', 'defam', 'nordiska', 'capitalbox', 'rabobank zakelijk financieren', 'opr-finance', 'bedrijfslening', 'crowdfund', 'european merchant finance',
@@ -133,19 +135,19 @@ try:
                 for keyword in loterijen:
                     if keyword.lower() in search_text:
                         #check duplicates
-                        if transaction_id not in processed_id and amount < 0:
+                        if transaction_id not in processed_id and amount < 0 and date > yearago.strftime('%Y-%m-%d'):
                             processed_id.add(transaction_id)
                             loterijen_sum += amount
-                            print(f"{amount:.0f} --- {keyword} (Loterij) - {date}")
+                            print(f"{amount:.0f} --- {keyword} (Loterij) - {date} {transaction_id}")
 
                 for keyword in policy:
                     if keyword.lower() in search_text:
                         #check duplicates
-                        if transaction_id not in processed_id:
+                        if transaction_id not in processed_id and date > yearago.strftime('%Y-%m-%d'):
                             processed_id.add(transaction_id)
                             policy_list.append((keyword))
                             policy_sum += amount
-                            print(f"{amount:.0f} --- {keyword} - {date} ")
+                            # print(f"{amount:.0f} --- {keyword} - {date} ")
         
                 #check for stornos 
 
@@ -159,7 +161,7 @@ try:
         print(f"belastingdienst teruggave: {bd_terug:.0f}")
         print(f"belastingdienst uitgaven: {bd_uit:.0f}")
         if policy_sum < 0:
-            print(f"policy: {policy_sum:.0f} --- {policy_list}")
+            print(f"policy: {policy_sum:.0f} ---")
         print("\n --- Duplicates --- \n")
 
         for amount, count in duplicate_bd.items():

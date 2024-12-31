@@ -17,7 +17,7 @@ incassos = ['incassobureau', 'incasso bureau', 'groot & evers', 'groot&evers', '
             'abc incasso', 'opmaat incasso', 'top credit management', 'centraal invorderings bureau', 'invorderingbureau', 'creditdefence', 'rechtbank', 'debicon ', 'money management', 'payq incasso',
             'brackeva', 'euler collections', 'vrh-incasso', 'incassocenter', 'stichting beheer derdengelden advocatuur pels rijcken', 'incassonet', 'join incasso', 'bbu juristen', 'jongejan wisseborn',
             'invoned', 'veuger, van dalfsen + partners', 'payq incasso','riverty services', 'hafkamp groenewegen', 'branche creditmanagement', 'albertson', 'de best en partners', 'best partners', 'incasso preiss',
-            'de kluijver derdengelden', 'gerechtsdeu', 'classic incasso', 'safe collect incasso', 'smit + legebeke', 'nijstad toonen', 'trust and law Incassoser']
+            'de kluijver derdengelden', 'gerechtsdeu', 'classic incasso', 'safe collect incasso', 'smit + legebeke', 'nijstad toonen', 'trust and law Incassoser','stichting beheer derdengelden holth', 'holthuizen incasso']
 
 loterijen = ['toto igaming', 'casino', 'loterij', 'unibet', 'bitvavo', 'crypto', 'poker', 'coinbase', ' trekking', 'uab alternative payments', 'retrust ou', 
              'bet365', 'fpo nederland', 'fairplay', 'joi gaming', 'play north limited', 'skrill', 'pokerstars', 'bwin ', 'betfair', 'nexo add funds',
